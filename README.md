@@ -1,1 +1,80 @@
-Aplicação Interativa MissionCare PlusVisão GeralEste projeto consiste em uma página web interativa de página única (SPA - Single Page Application) desenvolvida para apresentar a iniciativa MissionCare Plus. O objetivo é traduzir a mensagem e o propósito do aplicativo MissionCare Plus em uma experiência digital envolvente, informativa e fácil de navegar para um público global, incluindo missionários, agências, doadores e profissionais de saúde.A página foi construída com um fluxo narrativo que guia o usuário desde a compreensão dos desafios enfrentados pelos missionários até a solução oferecida pelo aplicativo e, finalmente, um chamado à ação para que se envolvam na missão.Links RelevantesAcessar o App MissionCare Plus: https://telesaudemissionaria.github.io/missioncare-plus/index.htmlPlaylist no YouTube: Telessaúde MissionáriaFuncionalidades Principais da PáginaDesign Responsivo: Totalmente adaptável para desktops, tablets e dispositivos móveis.Narrativa Guiada: A estrutura da página leva o usuário por uma jornada: O Desafio -> A Solução -> Envolva-se.Componentes Interativos:Explorador de Funcionalidades: Uma seção interativa onde o usuário pode clicar em diferentes funcionalidades do app para ver uma descrição detalhada.Abas de Envolvimento: Conteúdo organizado em abas para diferentes públicos-alvo (Missionários, Líderes, Profissionais da Saúde, Apoiadores).Visualização de Dados: Um gráfico de rosca (doughnut chart) criado com Chart.js para ilustrar os "Pilares do Cuidado Integral".Suporte Multilíngue: Funcionalidade completa de tradução para Português, Inglês, Espanhol e Francês, ativada por um seletor de idiomas visual e intuitivo.Tecnologias UtilizadasHTML5: Estrutura semântica do conteúdo.Tailwind CSS: Framework CSS para estilização rápida e responsiva, carregado via CDN.JavaScript (Vanilla): Utilizado para toda a lógica de interatividade, incluindo:Manipulação do DOM (menus, abas, conteúdo dinâmico).Sistema de tradução.Gerenciamento de eventos.Chart.js: Biblioteca para criação de gráficos dinâmicos e interativos, carregada via CDN.Estrutura do CódigoO projeto está contido em um único arquivo HTML, o que simplifica a distribuição e o deploy. A estrutura interna do arquivo é a seguinte:<head>:Configurações de metadados (charset, viewport).Links para as CDNs do Tailwind CSS, Chart.js e Google Fonts (Inter).Estilos CSS customizados dentro da tag <style> para complementar o Tailwind CSS.<body>:<header>: Cabeçalho fixo com navegação principal e menu móvel.<main>: Conteúdo principal da página, dividido em seções semânticas:#hero: Seção de abertura com o título principal, botões de ação e o seletor de idiomas.#desafio: Apresenta os problemas enfrentados pelos missionários.#solucao: Detalha as funcionalidades do app MissionCare Plus de forma interativa.#envolva-se: Seção com abas direcionadas para cada público.<footer>: Rodapé com informações de contato e encerramento.<script>: Bloco de JavaScript no final do <body> que contém toda a lógica da aplicação.Lógica JavaScriptO script principal, envolvido por um DOMContentLoaded, gerencia todas as interações:Sistema de Tradução:Um objeto translations armazena todos os textos em quatro idiomas (pt, en, es, fr). Cada texto é identificado por uma data-key única no HTML.A função setLanguage(lang) é responsável por percorrer todos os elementos com data-key, encontrar a tradução correspondente no objeto e atualizar o innerHTML do elemento.Essa função também atualiza as legendas do gráfico (recriando-o) e o atributo lang da tag <html>.Listeners de evento nos seletores de idioma (.lang-selector) chamam a função setLanguage com o idioma selecionado.Componentes Interativos:Menu Móvel: Um simples listener de clique no botão do menu alterna a classe hidden para mostrar ou esconder a navegação móvel.Explorador de Funcionalidades (#feature-buttons): Listeners de clique nos botões de funcionalidades alternam a classe active para o botão clicado e ajustam a visibilidade (display: block/none) do painel de conteúdo correspondente.Abas de Envolvimento (#involvement-tabs): Funciona de maneira similar ao explorador, alternando a classe active na aba e a visibilidade do conteúdo respectivo.Gráfico Dinâmico (Chart.js):A função createChart(lang) é chamada sempre que o idioma é alterado.Ela primeiro destrói qualquer instância anterior do gráfico (carePillarsChart.destroy()) para evitar conflitos.Em seguida, cria um novo gráfico com as legendas (labels) obtidas do objeto translations para o idioma ativo.Como ExecutarBasta abrir o arquivo index.html em qualquer navegador web moderno. Não é necessário um servidor local ou qualquer processo de build, pois todas as dependências são carregadas via CDN.
+# MissionCare Plus: Aplicação Interativa
+
+![Status](https://img.shields.io/badge/status-ativo-success)
+![Versão](https://img.shields.io/badge/version-1.0.0-blue)
+![Licença](https://img.shields.io/badge/license-MIT-green)
+
+Uma página web interativa e multilíngue desenvolvida para apresentar a iniciativa **MissionCare Plus**, oferecendo uma visão completa sobre seu propósito, funcionalidades e como se envolver.
+
+---
+
+## Tabela de Conteúdos
+
+1.  [Visão Geral](#visão-geral)
+2.  [Links Relevantes](#links-relevantes)
+3.  [Funcionalidades Principais](#funcionalidades-principais-da-página)
+4.  [Tecnologias Utilizadas](#tecnologias-utilizadas)
+5.  [Estrutura do Código](#estrutura-do-código)
+6.  [Como Executar](#como-executar)
+7.  [Contribuição](#contribuição)
+8.  [Licença](#licença)
+
+---
+
+## Visão Geral
+
+Este projeto consiste em uma página web interativa de página única (SPA - Single Page Application) desenvolvida para apresentar a iniciativa **MissionCare Plus**. O objetivo é traduzir a mensagem e o propósito do aplicativo MissionCare Plus em uma experiência digital envolvente, informativa e fácil de navegar para um público global, incluindo missionários, agências, doadores e profissionais de saúde.
+
+A página foi construída com um fluxo narrativo que guia o usuário desde a compreensão dos desafios enfrentados pelos missionários até a solução oferecida pelo aplicativo e, finalmente, um chamado à ação para que se envolvam na missão.
+
+## Links Relevantes
+
+-   **Acessar o App MissionCare Plus:** <https://telesaudemissionaria.github.io/missioncare-plus/index.html>
+-   **Playlist no YouTube:** [Telessaúde Missionária](https://youtube.com/playlist?list=PL6JIF2YBc-Bwo865kfBzRLCjd9lqhmOI1&si=HvYXdOM0L7tFgYe1)
+
+## Funcionalidades Principais da Página
+
+-   🎨 **Design Responsivo:** Totalmente adaptável para desktops, tablets e dispositivos móveis.
+-   🗺️ **Narrativa Guiada:** A estrutura da página leva o usuário por uma jornada: O Desafio -> A Solução -> Envolva-se.
+-   🖱️ **Componentes Interativos:**
+    -   **Explorador de Funcionalidades:** Uma seção interativa onde o usuário pode clicar em diferentes funcionalidades do app para ver uma descrição detalhada.
+    -   **Abas de Envolvimento:** Conteúdo organizado em abas para diferentes públicos-alvo (Missionários, Líderes, Profissionais da Saúde, Apoiadores).
+-   📊 **Visualização de Dados:** Um gráfico de rosca (doughnut chart) criado com Chart.js para ilustrar os "Pilares do Cuidado Integral".
+-   🌐 **Suporte Multilíngue:** Funcionalidade completa de tradução para **Português, Inglês, Espanhol e Francês**, ativada por um seletor de idiomas visual e intuitivo.
+
+## Tecnologias Utilizadas
+
+| Categoria      | Tecnologia                               |
+| -------------- | ---------------------------------------- |
+| **Estrutura** | HTML5                                    |
+| **Estilização**| Tailwind CSS (via CDN)                   |
+| **Lógica** | JavaScript (Vanilla)                     |
+| **Gráficos** | Chart.js (via CDN)                       |
+| **Fontes** | Google Fonts (Inter)                     |
+
+## Estrutura do Código
+
+O projeto está contido em um **único arquivo HTML**, o que simplifica a distribuição e o deploy.
+
+1.  **`<head>`**: Contém metadados, links para as CDNs (Tailwind, Chart.js, Google Fonts) e estilos CSS customizados.
+2.  **`<body>`**: Inclui o `<header>`, `<main>` com as seções da página (`#hero`, `#desafio`, `#solucao`, `#envolva-se`), e o `<footer>`.
+3.  **`<script>`**: No final do `<body>`, um bloco de JavaScript gerencia todas as interações dinâmicas da página.
+
+### Lógica JavaScript
+
+O script principal gerencia todas as interações:
+
+-   **Sistema de Tradução:** Um objeto `translations` armazena os textos em 4 idiomas. A função `setLanguage(lang)` atualiza dinamicamente o conteúdo da página com base na seleção do usuário, incluindo o texto do gráfico.
+-   **Componentes Interativos:** Listeners de evento gerenciam a lógica para o menu móvel, o explorador de funcionalidades e as abas de envolvimento, controlando a visibilidade e o estado ativo dos elementos.
+-   **Gráfico Dinâmico:** A função `createChart(lang)` destrói e recria o gráfico do Chart.js sempre que o idioma é alterado, garantindo que as legendas sejam traduzidas corretamente.
+
+## Como Executar
+
+Não é necessário nenhum processo de build ou servidor local. Basta abrir o arquivo `index.html` em qualquer navegador web moderno.
+
+```bash
+# Exemplo: Abrindo o arquivo no macOS
+open index.html
+
+# Exemplo: Abrindo o arquivo no Windows
+start index.html
