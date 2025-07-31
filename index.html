@@ -93,19 +93,20 @@
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
                      <a href="https://telesaudemissionaria.github.io/missioncare-plus/index.html" target="_blank" rel="noopener noreferrer" class="bg-[#81B29A] text-white font-bold py-3 px-6 rounded-full hover:bg-opacity-90 transition-transform transform hover:scale-105 w-full sm:w-auto text-lg" data-key="hero_cta_app">
-                        Acessar o App
-                    </a>
-                    <a href="https://youtube.com/playlist?list=PL6JIF2YBc-Bwo865kfBzRLCjd9lqhmOI1&si=HvYXdOM0L7tFgYe1" target="_blank" rel="noopener noreferrer" class="border-2 border-[#3D405B] text-[#3D405B] font-bold py-3 px-6 rounded-full hover:bg-[#3D405B] hover:text-white transition w-full sm:w-auto text-lg" data-key="hero_cta_youtube">
-                        Ver Playlist no YouTube
-                    </a>
+                         Acessar o App
+                     </a>
+                     <a href="https://youtube.com/playlist?list=PL6JIF2YBc-Bwo865kfBzRLCjd9lqhmOI1&si=HvYXdOM0L7tFgYe1" target="_blank" rel="noopener noreferrer" class="border-2 border-[#3D405B] text-[#3D405B] font-bold py-3 px-6 rounded-full hover:bg-[#3D405B] hover:text-white transition w-full sm:w-auto text-lg" data-key="hero_cta_youtube">
+                         Ver Playlist no YouTube
+                     </a>
                 </div>
                 <div class="mt-12">
                     <p class="text-gray-600 font-medium mb-3" data-key="lang_select_label">Selecione o Idioma:</p>
                     <div id="language-selector" class="flex justify-center items-center space-x-4">
-                        <a href="#" class="lang-selector text-3xl p-1 rounded-full transition-transform" data-lang="pt" title="Português">🇧🇷</a>
-                        <a href="#" class="lang-selector text-3xl p-1 rounded-full transition-transform" data-lang="en" title="English">🇬🇧</a>
-                        <a href="#" class="lang-selector text-3xl p-1 rounded-full transition-transform" data-lang="es" title="Español">🇪🇸</a>
-                        <a href="#" class="lang-selector text-3xl p-1 rounded-full transition-transform" data-lang="fr" title="Français">🇫🇷</a>
+                        <!-- CHANGED: data-lang attributes now use flags instead of acronyms -->
+                        <a href="#" class="lang-selector text-3xl p-1 rounded-full transition-transform" data-lang="🇧🇷" title="Português">🇧🇷</a>
+                        <a href="#" class="lang-selector text-3xl p-1 rounded-full transition-transform" data-lang="🇬🇧" title="English">🇬🇧</a>
+                        <a href="#" class="lang-selector text-3xl p-1 rounded-full transition-transform" data-lang="🇪🇸" title="Español">🇪🇸</a>
+                        <a href="#" class="lang-selector text-3xl p-1 rounded-full transition-transform" data-lang="🇫🇷" title="Français">🇫🇷</a>
                     </div>
                 </div>
             </div>
@@ -166,8 +167,8 @@
                                 <span class="font-bold text-lg" data-key="feature_5_button">📖 Renovação Espiritual</span>
                             </button>
                              <button class="feature-button text-left p-4 rounded-lg transition duration-300" data-feature="conexao">
-                                <span class="font-bold text-lg" data-key="feature_6_button">🔗 Conexão Segura</span>
-                            </button>
+                                 <span class="font-bold text-lg" data-key="feature_6_button">🔗 Conexão Segura</span>
+                             </button>
                         </div>
                     </div>
                     <div class="lg:col-span-8 bg-[#F8F7F4] p-8 rounded-xl min-h-[300px]">
@@ -202,8 +203,8 @@
                 <div class="mt-16 text-center">
                      <h3 class="text-2xl font-bold mb-4" data-key="chart_title">Os Pilares do Cuidado Integral</h3>
                      <div class="chart-container">
-                        <canvas id="carePillarsChart"></canvas>
-                    </div>
+                         <canvas id="carePillarsChart"></canvas>
+                     </div>
                 </div>
             </div>
         </section>
@@ -258,15 +259,16 @@
             <p class="font-bold">Missionary Medical Care</p>
             <p class="text-sm text-gray-400" data-key="footer_tagline">Medicina em Nome de Jesus</p>
              <div class="mt-6">
-                <p class="text-gray-300" data-key="footer_contact">Contato: missionarymedicalcare@gmail.com</p>
-            </div>
+                 <p class="text-gray-300" data-key="footer_contact">Contato: missionarymedicalcare@gmail.com</p>
+             </div>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // CHANGED: Translations object now uses flags as keys
             const translations = {
-                pt: {
+                '🇧🇷': {
                     nav_challenge: 'O Desafio',
                     nav_solution: 'A Solução',
                     nav_get_involved: 'Envolva-se',
@@ -331,7 +333,7 @@
                     footer_tagline: 'Medicina em Nome de Jesus',
                     footer_contact: 'Contato: missionarymedicalcare@gmail.com',
                 },
-                en: {
+                '🇬🇧': {
                     nav_challenge: 'The Challenge',
                     nav_solution: 'The Solution',
                     nav_get_involved: 'Get Involved',
@@ -396,7 +398,7 @@
                     footer_tagline: 'Medicine in the Name of Jesus',
                     footer_contact: 'Contact: missionarymedicalcare@gmail.com',
                 },
-                es: {
+                '🇪🇸': {
                     nav_challenge: 'El Desafío',
                     nav_solution: 'La Solución',
                     nav_get_involved: 'Involúcrate',
@@ -461,7 +463,7 @@
                     footer_tagline: 'Medicina en Nombre de Jesús',
                     footer_contact: 'Contacto: missionarymedicalcare@gmail.com',
                 },
-                fr: {
+                '🇫🇷': {
                     nav_challenge: 'Le Défi',
                     nav_solution: 'La Solution',
                     nav_get_involved: 'S\'impliquer',
@@ -526,6 +528,14 @@
                     footer_tagline: 'Médecine au Nom de Jésus',
                     footer_contact: 'Contact : missionarymedicalcare@gmail.com',
                 }
+            };
+
+            // ADDED: A map to convert flag emojis back to standard lang codes for the <html> tag
+            const langCodeMap = {
+                '🇧🇷': 'pt-BR',
+                '🇬🇧': 'en',
+                '🇪🇸': 'es',
+                '🇫🇷': 'fr'
             };
 
             const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -629,7 +639,8 @@
                     }
                 });
                 
-                document.documentElement.lang = lang.startsWith('en') ? 'en' : (lang.startsWith('es') ? 'es' : (lang.startsWith('fr') ? 'fr' : 'pt-BR'));
+                // CHANGED: Use the langCodeMap to set the correct lang attribute on the HTML tag
+                document.documentElement.lang = langCodeMap[lang] || 'pt-BR';
                 createChart(lang);
             }
 
@@ -641,7 +652,8 @@
                 });
             });
 
-            setLanguage('pt');
+            // CHANGED: Set the initial language using the flag emoji
+            setLanguage('🇧🇷');
         });
     </script>
 </body>
