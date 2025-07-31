@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MissionCare Plus | Cuidado Integral para Missionários</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony Neutrals -->
+    <!-- Application Structure Plan: A thematic, single-page application designed to guide the user on a narrative journey. The structure is: 1. Hero Section (Introduction), 2. The Challenge (Visually presenting missionaries' health issues), 3. The Solution (Interactive exploration of the app's features), 4. Get Involved (Targeted calls-to-action for different audiences), 5. Conclusion. This narrative flow was chosen over a simple linear presentation to build empathy, clearly demonstrate value, and drive action, making the complex information digestible and engaging for all target audiences (missionaries, donors, agencies). -->
+    <!-- Visualization & Content Choices: Challenges are shown as interactive cards for quick insights. App features are in a dynamic "explorer" to detail functionality without clutter. A doughnut chart from Chart.js visualizes the app's holistic approach (Physical, Emotional, Spiritual Care). A tabbed interface organizes the "Get Involved" section for clarity. These choices prioritize user interaction and understanding, avoiding static text walls and confirming NO SVG/Mermaid is used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #3D405B;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #E07A5F;
+        }
+        .feature-button.active {
+            background-color: #81B29A;
+            color: #FFFFFF;
+            font-weight: 700;
+        }
+        .involvement-tab.active {
+            border-bottom: 2px solid #E07A5F;
+            color: #E07A5F;
+            font-weight: 700;
+        }
+        .lang-selector.active {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px rgba(224, 122, 95, 0.5);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-[#3D405B]">
+                MissionCare<span class="text-[#81B29A]">+</span>
+            </a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#desafio" class="nav-link text-gray-600 font-medium" data-key="nav_challenge">O Desafio</a>
+                <a href="#solucao" class="nav-link text-gray-600 font-medium" data-key="nav_solution">A Solução</a>
+                <a href="#envolva-se" class="nav-link text-gray-600 font-medium" data-key="nav_get_involved">Envolva-se</a>
+            </nav>
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="#envolva-se" class="bg-[#E07A5F] text-white font-bold py-2 px-5 rounded-full hover:bg-opacity-90 transition-transform transform hover:scale-105" data-key="nav_cta">
+                    Faça Parte
+                </a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-2xl">☰</button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#desafio" class="block py-2 nav-link text-gray-600" data-key="nav_challenge_mobile">O Desafio</a>
+            <a href="#solucao" class="block py-2 nav-link text-gray-600" data-key="nav_solution_mobile">A Solução</a>
+            <a href="#envolva-se" class="block py-2 nav-link text-gray-600" data-key="nav_get_involved_mobile">Envolva-se</a>
+            <a href="#envolva-se" class="block mt-4 text-center bg-[#E07A5F] text-white font-bold py-2 px-5 rounded-full" data-key="nav_cta_mobile">Faça Parte</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="pt-32 pb-20 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4" data-key="hero_title">
+                    Uma revolução de <span class="text-[#81B29A]">cuidado</span> para quem <span class="text-[#E07A5F]">serve</span>.
+                </h1>
+                <p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-600 mb-8" data-key="hero_subtitle">
+                    Apresentando o MissionCare Plus: a ferramenta de saúde integral, offline e com coração cristão, que protege e sustenta nossos heróis da fé nos lugares mais remotos da Terra.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                     <a href="https://telesaudemissionaria.github.io/missioncare-plus/index.html" target="_blank" rel="noopener noreferrer" class="bg-[#81B29A] text-white font-bold py-3 px-6 rounded-full hover:bg-opacity-90 transition-transform transform hover:scale-105 w-full sm:w-auto text-lg" data-key="hero_cta_app">
+                        Acessar o App
+                    </a>
+                    <a href="https://youtube.com/playlist?list=PL6JIF2YBc-Bwo865kfBzRLCjd9lqhmOI1&si=HvYXdOM0L7tFgYe1" target="_blank" rel="noopener noreferrer" class="border-2 border-[#3D405B] text-[#3D405B] font-bold py-3 px-6 rounded-full hover:bg-[#3D405B] hover:text-white transition w-full sm:w-auto text-lg" data-key="hero_cta_youtube">
+                        Ver Playlist no YouTube
+                    </a>
+                </div>
+                <div class="mt-12">
+                    <p class="text-gray-600 font-medium mb-3" data-key="lang_select_label">Selecione o Idioma:</p>
+                    <div id="language-selector" class="flex justify-center items-center space-x-4">
+                        <a href="#" class="lang-selector text-3xl p-1 rounded-full transition-transform" data-lang="pt" title="Português">🇧🇷</a>
+                        <a href="#" class="lang-selector text-3xl p-1 rounded-full transition-transform" data-lang="en" title="English">🇬🇧</a>
+                        <a href="#" class="lang-selector text-3xl p-1 rounded-full transition-transform" data-lang="es" title="Español">🇪🇸</a>
+                        <a href="#" class="lang-selector text-3xl p-1 rounded-full transition-transform" data-lang="fr" title="Français">🇫🇷</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="desafio" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3" data-key="challenge_title">A Batalha Silenciosa pela Saúde no Campo</h2>
+                    <p class="max-w-3xl mx-auto text-gray-600 text-lg" data-key="challenge_subtitle">
+                        Missionários enfrentam desafios únicos que vão além do espiritual. O acesso à saúde é uma jornada repleta de obstáculos que podem comprometer a missão e o bem-estar.
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <div class="text-4xl mb-4 text-[#E07A5F]">🌍</div>
+                        <h3 class="text-2xl font-bold mb-2" data-key="challenge_1_title">Isolamento e Incerteza</h3>
+                        <p class="text-gray-600" data-key="challenge_1_text">Longe de hospitais, uma simples febre ou acidente gera ansiedade e impotência. A decisão errada pode ter consequências graves, e a ajuda profissional está a dias de distância.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <div class="text-4xl mb-4 text-[#E07A5F]">🦟</div>
+                        <h3 class="text-2xl font-bold mb-2" data-key="challenge_2_title">Doenças e Riscos</h3>
+                        <p class="text-gray-600" data-key="challenge_2_text">Malária, dengue, febre tifoide e infecções são ameaças constantes. O manejo de doenças crônicas, como diabetes, torna-se um desafio complexo sem suporte especializado.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <div class="text-4xl mb-4 text-[#E07A5F]">❤️‍🩹</div>
+                        <h3 class="text-2xl font-bold mb-2" data-key="challenge_3_title">Saúde Mental e Emocional</h3>
+                        <p class="text-gray-600" data-key="challenge_3_text">O estresse, a solidão e a pressão do ministério podem levar a quadros de ansiedade e depressão, muitas vezes negligenciados por falta de um ambiente seguro para tratamento.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solucao" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3" data-key="solution_title">A Resposta de Deus: MissionCare Plus</h2>
+                    <p class="max-w-3xl mx-auto text-gray-600 text-lg" data-key="solution_subtitle">
+                        Um "socorrista digital" no seu bolso, que funciona mesmo sem internet. É a tecnologia a serviço da Grande Comissão, rompendo barreiras de isolamento com cuidado e esperança.
+                    </p>
+                </div>
+                <div class="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
+                    <div class="lg:col-span-4 mb-10 lg:mb-0">
+                        <div id="feature-buttons" class="flex flex-col space-y-3">
+                            <button class="feature-button text-left p-4 rounded-lg transition duration-300 active" data-feature="triagem">
+                                <span class="font-bold text-lg" data-key="feature_1_button">🩺 Triagem de Sintomas Inteligente</span>
+                            </button>
+                            <button class="feature-button text-left p-4 rounded-lg transition duration-300" data-feature="socorros">
+                                <span class="font-bold text-lg" data-key="feature_2_button">🩹 Guia de Primeiros Socorros</span>
+                            </button>
+                            <button class="feature-button text-left p-4 rounded-lg transition duration-300" data-feature="ia">
+                                <span class="font-bold text-lg" data-key="feature_3_button">🤖 Assistente de IA com Fé</span>
+                            </button>
+                            <button class="feature-button text-left p-4 rounded-lg transition duration-300" data-feature="medicamentos">
+                                <span class="font-bold text-lg" data-key="feature_4_button">💊 Gestão de Medicamentos</span>
+                            </button>
+                            <button class="feature-button text-left p-4 rounded-lg transition duration-300" data-feature="espiritual">
+                                <span class="font-bold text-lg" data-key="feature_5_button">📖 Renovação Espiritual</span>
+                            </button>
+                             <button class="feature-button text-left p-4 rounded-lg transition duration-300" data-feature="conexao">
+                                <span class="font-bold text-lg" data-key="feature_6_button">🔗 Conexão Segura</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-8 bg-[#F8F7F4] p-8 rounded-xl min-h-[300px]">
+                        <div id="feature-content">
+                            <div class="feature-pane active" data-feature="triagem">
+                                <h3 class="text-2xl font-bold mb-3" data-key="feature_1_title">Triagem de Sintomas Inteligente</h3>
+                                <p class="text-gray-600" data-key="feature_1_text">Em vez de se perder no "Dr. Google", nosso sistema guiado faz as perguntas certas. Em minutos, avalie seus sintomas ou os de seus filhos e receba uma orientação clara e objetiva sobre a gravidade e os próximos passos, reduzindo o pânico e capacitando para a ação correta.</p>
+                            </div>
+                            <div class="feature-pane hidden" data-feature="socorros">
+                                <h3 class="text-2xl font-bold mb-3" data-key="feature_2_title">Guia de Primeiros Socorros Offline</h3>
+                                <p class="text-gray-600" data-key="feature_2_text">Acidentes, picadas, queimaduras? Tenha acesso instantâneo a protocolos de emergência claros e visuais, que ensinam desde como imobilizar uma fratura até os passos vitais na reanimação, transformando seu celular em um manual de sobrevivência.</p>
+                            </div>
+                            <div class="feature-pane hidden" data-feature="ia">
+                                <h3 class="text-2xl font-bold mb-3" data-key="feature_3_title">Assistente de IA com Coração Cristão</h3>
+                                <p class="text-gray-600" data-key="feature_3_text">Tire dúvidas rápidas de saúde e receba conselhos que unem a sabedoria médica à empatia e à fé. Nosso assistente foi treinado para ser um conselheiro que entende sua jornada, oferecendo conforto bíblico junto com a orientação.</p>
+                            </div>
+                            <div class="feature-pane hidden" data-feature="medicamentos">
+                                <h3 class="text-2xl font-bold mb-3" data-key="feature_4_title">Gestão de Medicamentos Essenciais</h3>
+                                <p class="text-gray-600" data-key="feature_4_text">Saiba quais medicamentos são cruciais para levar ao campo, suas indicações, dosagens e alertas de segurança. Uma farmácia de bolso para que você nunca seja pego de surpresa, a milhares de quilômetros de um profissional.</p>
+                            </div>
+                            <div class="feature-pane hidden" data-feature="espiritual">
+                                <h3 class="text-2xl font-bold mb-3" data-key="feature_5_title">Renovação Espiritual Diária</h3>
+                                <p class="text-gray-600" data-key="feature_5_text">A saúde da alma sustenta o corpo. O app oferece devocionais e versículos bíblicos contextualizados para a realidade missionária, fortalecendo seu espírito e lembrando que você não está sozinho.</p>
+                            </div>
+                            <div class="feature-pane hidden" data-feature="conexao">
+                                <h3 class="text-2xl font-bold mb-3" data-key="feature_6_title">Conexão Direta e Segura</h3>
+                                <p class="text-gray-600" data-key="feature_6_text">Com apenas um toque, compartilhe seu relatório de saúde de forma segura e confidencial com a equipe de enfermagem da Telessaúde Missionária ou com sua liderança, agilizando o suporte quando você mais precisa.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-16 text-center">
+                     <h3 class="text-2xl font-bold mb-4" data-key="chart_title">Os Pilares do Cuidado Integral</h3>
+                     <div class="chart-container">
+                        <canvas id="carePillarsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="envolva-se" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3" data-key="involve_title">Um Chamado a Todos: Faça Parte Desta Missão</h2>
+                    <p class="max-w-3xl mx-auto text-gray-600 text-lg" data-key="involve_subtitle">
+                        O MissionCare Plus é um corpo, e cada membro é essencial. Descubra como você pode se juntar a este movimento de cuidado e fazer a diferença.
+                    </p>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <div class="border-b border-gray-300 mb-8">
+                        <nav id="involvement-tabs" class="flex flex-wrap -mb-px justify-center" aria-label="Tabs">
+                            <button class="involvement-tab active text-lg py-4 px-6" data-tab="missionario" data-key="tab_missionary">Sou Missionário</button>
+                            <button class="involvement-tab text-lg py-4 px-6" data-tab="agencia" data-key="tab_agency">Sou Líder/Agência</button>
+                            <button class="involvement-tab text-lg py-4 px-6" data-tab="saude" data-key="tab_health_pro">Sou da Saúde</button>
+                            <button class="involvement-tab text-lg py-4 px-6" data-tab="apoiador" data-key="tab_supporter">Sou Apoiador</button>
+                        </nav>
+                    </div>
+                    <div id="involvement-content">
+                        <div class="tab-pane active" data-tab="missionario">
+                            <h3 class="text-2xl font-bold mb-4 text-center" data-key="pane_missionary_title">Um Presente Para Você</h3>
+                            <p class="text-lg text-gray-600 text-center" data-key="pane_missionary_text">Baixe o aplicativo! Sinta a paz de ter um apoio confiável na palma da sua mão. Cuidar de si mesmo não é egoísmo, mas uma estratégia espiritual para a longevidade do seu ministério. Sua saúde é um patrimônio precioso para o Reino de Deus. Use-o, explore e fortaleça-se para continuar cuidando dos outros.</p>
+                        </div>
+                        <div class="tab-pane hidden" data-tab="agencia">
+                            <h3 class="text-2xl font-bold mb-4 text-center" data-key="pane_agency_title">Proteja Seus Obreiros</h3>
+                            <p class="text-lg text-gray-600 text-center" data-key="pane_agency_text">Adotem o MissionCare Plus como sua ferramenta oficial de cuidado. Integrem o app em seus treinamentos e manuais. Ao fazer isso, vocês oferecem uma camada extra de proteção, um anjo da guarda digital que reduz o risco de retornos prematuros e fortalece o trabalho no campo.</p>
+                        </div>
+                        <div class="tab-pane hidden" data-tab="saude">
+                            <h3 class="text-2xl font-bold mb-4 text-center" data-key="pane_health_pro_title">Use Seu Dom Para Curar</h3>
+                            <p class="text-lg text-gray-600 text-center" data-key="pane_health_pro_text">Seu talento é uma vocação. Junte-se à nossa rede de voluntários. Como médico, enfermeiro ou psicólogo, você pode ser a resposta à oração de um missionário em apuros. Com poucas horas do seu tempo, sua expertise pode trazer alívio e esperança a quem está na vanguarda do Reino.</p>
+                        </div>
+                        <div class="tab-pane hidden" data-tab="apoiador">
+                            <h3 class="text-2xl font-bold mb-4 text-center" data-key="pane_supporter_title">Seja a Mão que Sustenta</h3>
+                            <p class="text-lg text-gray-600 text-center" data-key="pane_supporter_text">Seja um intercessor ou um doador. Sua oração é nosso combustível espiritual. Sua generosidade constrói esta ponte de esperança, mantendo a plataforma gratuita e garantindo que nenhum missionário fique desamparado. Investir no MissionCare Plus é investir na linha de frente da missão.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#3D405B] text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold mb-4" data-key="footer_title">O Futuro é de Cuidado e Esperança!</h2>
+            <p class="max-w-2xl mx-auto mb-8" data-key="footer_subtitle">
+                Junte-se a nós nesta jornada emocionante e transformadora. Vamos juntos levar saúde, esperança e o amor tangível de Jesus a cada missionário, em cada canto do planeta.
+            </p>
+            <p class="font-bold">Missionary Medical Care</p>
+            <p class="text-sm text-gray-400" data-key="footer_tagline">Medicina em Nome de Jesus</p>
+             <div class="mt-6">
+                <p class="text-gray-300" data-key="footer_contact">Contato: missionarymedicalcare@gmail.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const translations = {
+                pt: {
+                    nav_challenge: 'O Desafio',
+                    nav_solution: 'A Solução',
+                    nav_get_involved: 'Envolva-se',
+                    nav_cta: 'Faça Parte',
+                    nav_challenge_mobile: 'O Desafio',
+                    nav_solution_mobile: 'A Solução',
+                    nav_get_involved_mobile: 'Envolva-se',
+                    nav_cta_mobile: 'Faça Parte',
+                    hero_title: 'Uma revolução de <span class="text-[#81B29A]">cuidado</span> para quem <span class="text-[#E07A5F]">serve</span>.',
+                    hero_subtitle: 'Apresentando o MissionCare Plus: a ferramenta de saúde integral, offline e com coração cristão, que protege e sustenta nossos heróis da fé nos lugares mais remotos da Terra.',
+                    hero_cta_app: 'Acessar o App',
+                    hero_cta_youtube: 'Ver Playlist no YouTube',
+                    lang_select_label: 'Selecione o Idioma:',
+                    challenge_title: 'A Batalha Silenciosa pela Saúde no Campo',
+                    challenge_subtitle: 'Missionários enfrentam desafios únicos que vão além do espiritual. O acesso à saúde é uma jornada repleta de obstáculos que podem comprometer a missão e o bem-estar.',
+                    challenge_1_title: 'Isolamento e Incerteza',
+                    challenge_1_text: 'Longe de hospitais, uma simples febre ou acidente gera ansiedade e impotência. A decisão errada pode ter consequências graves, e a ajuda profissional está a dias de distância.',
+                    challenge_2_title: 'Doenças e Riscos',
+                    challenge_2_text: 'Malária, dengue, febre tifoide e infecções são ameaças constantes. O manejo de doenças crônicas, como diabetes, torna-se um desafio complexo sem suporte especializado.',
+                    challenge_3_title: 'Saúde Mental e Emocional',
+                    challenge_3_text: 'O estresse, a solidão e a pressão do ministério podem levar a quadros de ansiedade e depressão, muitas vezes negligenciados por falta de um ambiente seguro para tratamento.',
+                    solution_title: 'A Resposta de Deus: MissionCare Plus',
+                    solution_subtitle: 'Um "socorrista digital" no seu bolso, que funciona mesmo sem internet. É a tecnologia a serviço da Grande Comissão, rompendo barreiras de isolamento com cuidado e esperança.',
+                    feature_1_button: '🩺 Triagem de Sintomas Inteligente',
+                    feature_2_button: '🩹 Guia de Primeiros Socorros',
+                    feature_3_button: '🤖 Assistente de IA com Fé',
+                    feature_4_button: '💊 Gestão de Medicamentos',
+                    feature_5_button: '📖 Renovação Espiritual',
+                    feature_6_button: '🔗 Conexão Segura',
+                    feature_1_title: 'Triagem de Sintomas Inteligente',
+                    feature_1_text: 'Em vez de se perder no "Dr. Google", nosso sistema guiado faz as perguntas certas. Em minutos, avalie seus sintomas ou os de seus filhos e receba uma orientação clara e objetiva sobre a gravidade e os próximos passos, reduzindo o pânico e capacitando para a ação correta.',
+                    feature_2_title: 'Guia de Primeiros Socorros Offline',
+                    feature_2_text: 'Acidentes, picadas, queimaduras? Tenha acesso instantâneo a protocolos de emergência claros e visuais, que ensinam desde como imobilizar uma fratura até os passos vitais na reanimação, transformando seu celular em um manual de sobrevivência.',
+                    feature_3_title: 'Assistente de IA com Coração Cristão',
+                    feature_3_text: 'Tire dúvidas rápidas de saúde e receba conselhos que unem a sabedoria médica à empatia e à fé. Nosso assistente foi treinado para ser um conselheiro que entende sua jornada, oferecendo conforto bíblico junto com a orientação.',
+                    feature_4_title: 'Gestão de Medicamentos Essenciais',
+                    feature_4_text: 'Saiba quais medicamentos são cruciais para levar ao campo, suas indicações, dosagens e alertas de segurança. Uma farmácia de bolso para que você nunca seja pego de surpresa, a milhares de quilômetros de um profissional.',
+                    feature_5_title: 'Renovação Espiritual Diária',
+                    feature_5_text: 'A saúde da alma sustenta o corpo. O app oferece devocionais e versículos bíblicos contextualizados para a realidade missionária, fortalecendo seu espírito e lembrando que você não está sozinho.',
+                    feature_6_title: 'Conexão Direta e Segura',
+                    feature_6_text: 'Com apenas um toque, compartilhe seu relatório de saúde de forma segura e confidencial com a equipe de enfermagem da Telessaúde Missionária ou com sua liderança, agilizando o suporte quando você mais precisa.',
+                    chart_title: 'Os Pilares do Cuidado Integral',
+                    chart_label_1: 'Cuidado Físico',
+                    chart_label_2: 'Cuidado Emocional',
+                    chart_label_3: 'Cuidado Espiritual',
+                    involve_title: 'Um Chamado a Todos: Faça Parte Desta Missão',
+                    involve_subtitle: 'O MissionCare Plus é um corpo, e cada membro é essencial. Descubra como você pode se juntar a este movimento de cuidado e fazer a diferença.',
+                    tab_missionary: 'Sou Missionário',
+                    tab_agency: 'Sou Líder/Agência',
+                    tab_health_pro: 'Sou da Saúde',
+                    tab_supporter: 'Sou Apoiador',
+                    pane_missionary_title: 'Um Presente Para Você',
+                    pane_missionary_text: 'Baixe o aplicativo! Sinta a paz de ter um apoio confiável na palma da sua mão. Cuidar de si mesmo não é egoísmo, mas uma estratégia espiritual para a longevidade do seu ministério. Sua saúde é um patrimônio precioso para o Reino de Deus. Use-o, explore e fortaleça-se para continuar cuidando dos outros.',
+                    pane_agency_title: 'Proteja Seus Obreiros',
+                    pane_agency_text: 'Adotem o MissionCare Plus como sua ferramenta oficial de cuidado. Integrem o app em seus treinamentos e manuais. Ao fazer isso, vocês oferecem uma camada extra de proteção, um anjo da guarda digital que reduz o risco de retornos prematuros e fortalece o trabalho no campo.',
+                    pane_health_pro_title: 'Use Seu Dom Para Curar',
+                    pane_health_pro_text: 'Seu talento é uma vocação. Junte-se à nossa rede de voluntários. Como médico, enfermeiro ou psicólogo, você pode ser a resposta à oração de um missionário em apuros. Com poucas horas do seu tempo, sua expertise pode trazer alívio e esperança a quem está na vanguarda do Reino.',
+                    pane_supporter_title: 'Seja a Mão que Sustenta',
+                    pane_supporter_text: 'Seja um intercessor ou um doador. Sua oração é nosso combustível espiritual. Sua generosidade constrói esta ponte de esperança, mantendo a plataforma gratuita e garantindo que nenhum missionário fique desamparado. Investir no MissionCare Plus é investir na linha de frente da missão.',
+                    footer_title: 'O Futuro é de Cuidado e Esperança!',
+                    footer_subtitle: 'Junte-se a nós nesta jornada emocionante e transformadora. Vamos juntos levar saúde, esperança e o amor tangível de Jesus a cada missionário, em cada canto do planeta.',
+                    footer_tagline: 'Medicina em Nome de Jesus',
+                    footer_contact: 'Contato: missionarymedicalcare@gmail.com',
+                },
+                en: {
+                    nav_challenge: 'The Challenge',
+                    nav_solution: 'The Solution',
+                    nav_get_involved: 'Get Involved',
+                    nav_cta: 'Join Us',
+                    nav_challenge_mobile: 'The Challenge',
+                    nav_solution_mobile: 'The Solution',
+                    nav_get_involved_mobile: 'Get Involved',
+                    nav_cta_mobile: 'Join Us',
+                    hero_title: 'A revolution of <span class="text-[#81B29A]">care</span> for those who <span class="text-[#E07A5F]">serve</span>.',
+                    hero_subtitle: 'Introducing MissionCare Plus: the comprehensive, offline health tool with a Christian heart, protecting and sustaining our heroes of faith in the most remote corners of the Earth.',
+                    hero_cta_app: 'Access the App',
+                    hero_cta_youtube: 'Watch Playlist on YouTube',
+                    lang_select_label: 'Select Language:',
+                    challenge_title: 'The Silent Battle for Health on the Field',
+                    challenge_subtitle: 'Missionaries face unique challenges that go beyond the spiritual. Access to healthcare is a journey fraught with obstacles that can compromise their mission and well-being.',
+                    challenge_1_title: 'Isolation and Uncertainty',
+                    challenge_1_text: 'Far from hospitals, a simple fever or accident creates anxiety and helplessness. The wrong decision can have serious consequences, and professional help is days away.',
+                    challenge_2_title: 'Diseases and Risks',
+                    challenge_2_text: 'Malaria, dengue, typhoid fever, and infections are constant threats. Managing chronic diseases like diabetes becomes a complex challenge without specialized support.',
+                    challenge_3_title: 'Mental and Emotional Health',
+                    challenge_3_text: 'Stress, loneliness, and ministry pressure can lead to anxiety and depression, often neglected due to the lack of a safe environment for treatment.',
+                    solution_title: 'God\'s Answer: MissionCare Plus',
+                    solution_subtitle: 'A "digital first-responder" in your pocket, that works even without internet. It\'s technology at the service of the Great Commission, breaking down barriers of isolation with care and hope.',
+                    feature_1_button: '🩺 Smart Symptom Triage',
+                    feature_2_button: '🩹 First Aid Guide',
+                    feature_3_button: '🤖 AI Assistant with Faith',
+                    feature_4_button: '💊 Medication Management',
+                    feature_5_button: '📖 Spiritual Renewal',
+                    feature_6_button: '🔗 Secure Connection',
+                    feature_1_title: 'Smart Symptom Triage',
+                    feature_1_text: 'Instead of getting lost in "Dr. Google," our guided system asks the right questions. In minutes, assess your or your children\'s symptoms and receive clear, objective guidance on severity and next steps, reducing panic and empowering correct action.',
+                    feature_2_title: 'Offline First Aid Guide',
+                    feature_2_text: 'Accidents, bites, burns? Get instant access to clear, visual emergency protocols that teach everything from immobilizing a fracture to vital resuscitation steps, turning your phone into a survival manual.',
+                    feature_3_title: 'AI Assistant with a Christian Heart',
+                    feature_3_text: 'Ask quick health questions and receive advice that blends medical wisdom with empathy and faith. Our assistant is trained to be a counselor who understands your journey, offering biblical comfort alongside guidance.',
+                    feature_4_title: 'Essential Medication Management',
+                    feature_4_text: 'Know which medications are crucial for the field, their indications, dosages, and safety alerts. A pocket pharmacy so you are never caught off guard, thousands of miles from a professional.',
+                    feature_5_title: 'Daily Spiritual Renewal',
+                    feature_5_text: 'The health of the soul sustains the body. The app offers devotionals and Bible verses contextualized for the missionary reality, strengthening your spirit and reminding you that you are not alone.',
+                    feature_6_title: 'Direct and Secure Connection',
+                    feature_6_text: 'With a single tap, securely and confidentially share your health report with the Missionary Telehealth nursing team or your leadership, speeding up support when you need it most.',
+                    chart_title: 'The Pillars of Holistic Care',
+                    chart_label_1: 'Physical Care',
+                    chart_label_2: 'Emotional Care',
+                    chart_label_3: 'Spiritual Care',
+                    involve_title: 'A Call to All: Be Part of This Mission',
+                    involve_subtitle: 'MissionCare Plus is a body, and every member is essential. Discover how you can join this movement of care and make a difference.',
+                    tab_missionary: 'I\'m a Missionary',
+                    tab_agency: 'I\'m a Leader/Agency',
+                    tab_health_pro: 'I\'m a Health Pro',
+                    tab_supporter: 'I\'m a Supporter',
+                    pane_missionary_title: 'A Gift For You',
+                    pane_missionary_text: 'Download the app! Feel the peace of having reliable support in the palm of your hand. Self-care is not selfishness, but a spiritual strategy for the longevity of your ministry. Your health is a precious asset for the Kingdom of God. Use it, explore, and be strengthened to continue caring for others.',
+                    pane_agency_title: 'Protect Your Workers',
+                    pane_agency_text: 'Adopt MissionCare Plus as your official care tool. Integrate the app into your training and manuals. In doing so, you provide an extra layer of protection, a digital guardian angel that reduces the risk of premature returns and strengthens the work on the field.',
+                    pane_health_pro_title: 'Use Your Gift to Heal',
+                    pane_health_pro_text: 'Your talent is a calling. Join our network of volunteers. As a doctor, nurse, or psychologist, you can be the answer to a missionary\'s prayer in distress. With just a few hours of your time, your expertise can bring relief and hope to those on the front lines of the Kingdom.',
+                    pane_supporter_title: 'Be the Hand That Upholds',
+                    pane_supporter_text: 'Be an intercessor or a donor. Your prayer is our spiritual fuel. Your generosity builds this bridge of hope, keeping the platform free and ensuring no missionary is left helpless. Investing in MissionCare Plus is investing in the front lines of the mission.',
+                    footer_title: 'The Future is Care and Hope!',
+                    footer_subtitle: 'Join us on this exciting and transformative journey. Together, let\'s bring health, hope, and the tangible love of Jesus to every missionary, in every corner of the planet.',
+                    footer_tagline: 'Medicine in the Name of Jesus',
+                    footer_contact: 'Contact: missionarymedicalcare@gmail.com',
+                },
+                es: {
+                    nav_challenge: 'El Desafío',
+                    nav_solution: 'La Solución',
+                    nav_get_involved: 'Involúcrate',
+                    nav_cta: 'Únete',
+                    nav_challenge_mobile: 'El Desafío',
+                    nav_solution_mobile: 'La Solución',
+                    nav_get_involved_mobile: 'Involúcrate',
+                    nav_cta_mobile: 'Únete',
+                    hero_title: 'Una revolución de <span class="text-[#81B29A]">cuidado</span> para quienes <span class="text-[#E07A5F]">sirven</span>.',
+                    hero_subtitle: 'Presentamos MissionCare Plus: la herramienta de salud integral, offline y con corazón cristiano, que protege y sostiene a nuestros héroes de la fe en los lugares más remotos de la Tierra.',
+                    hero_cta_app: 'Acceder a la App',
+                    hero_cta_youtube: 'Ver Playlist en YouTube',
+                    lang_select_label: 'Selecciona el Idioma:',
+                    challenge_title: 'La Batalla Silenciosa por la Salud en el Campo',
+                    challenge_subtitle: 'Los misioneros enfrentan desafíos únicos que van más allá de lo espiritual. El acceso a la salud es un viaje lleno de obstáculos que pueden comprometer la misión y el bienestar.',
+                    challenge_1_title: 'Aislamiento e Incertidumbre',
+                    challenge_1_text: 'Lejos de los hospitales, una simple fiebre o un accidente generan ansiedad e impotencia. Una decisión equivocada puede tener graves consecuencias y la ayuda profesional está a días de distancia.',
+                    challenge_2_title: 'Enfermedades y Riesgos',
+                    challenge_2_text: 'La malaria, el dengue, la fiebre tifoidea y las infecciones son amenazas constantes. El manejo de enfermedades crónicas, como la diabetes, se convierte en un desafío complejo sin apoyo especializado.',
+                    challenge_3_title: 'Salud Mental y Emocional',
+                    challenge_3_text: 'El estrés, la soledad y la presión del ministerio pueden provocar cuadros de ansiedad y depresión, a menudo descuidados por falta de un entorno seguro para el tratamiento.',
+                    solution_title: 'La Respuesta de Dios: MissionCare Plus',
+                    solution_subtitle: 'Un "socorrista digital" en tu bolsillo, que funciona incluso sin internet. Es la tecnología al servicio de la Gran Comisión, rompiendo barreras de aislamiento con cuidado y esperanza.',
+                    feature_1_button: '🩺 Triaje de Síntomas Inteligente',
+                    feature_2_button: '🩹 Guía de Primeros Auxilios',
+                    feature_3_button: '🤖 Asistente de IA con Fe',
+                    feature_4_button: '💊 Gestión de Medicamentos',
+                    feature_5_button: '📖 Renovación Espiritual',
+                    feature_6_button: '🔗 Conexión Segura',
+                    feature_1_title: 'Triaje de Síntomas Inteligente',
+                    feature_1_text: 'En lugar de perderte en "Dr. Google", nuestro sistema guiado te hace las preguntas correctas. En minutos, evalúa tus síntomas o los de tus hijos y recibe una orientación clara y objetiva sobre la gravedad y los próximos pasos, reduciendo el pánico y capacitando para la acción correcta.',
+                    feature_2_title: 'Guía de Primeros Auxilios Offline',
+                    feature_2_text: '¿Accidentes, picaduras, quemaduras? Ten acceso instantáneo a protocolos de emergencia claros y visuales, que enseñan desde cómo inmovilizar una fractura hasta los pasos vitales en la reanimación, convirtiendo tu móvil en un manual de supervivencia.',
+                    feature_3_title: 'Asistente de IA con Corazón Cristiano',
+                    feature_3_text: 'Resuelve dudas rápidas de salud y recibe consejos que unen la sabiduría médica con la empatía y la fe. Nuestro asistente está entrenado para ser un consejero que entiende tu viaje, ofreciendo consuelo bíblico junto con la orientación.',
+                    feature_4_title: 'Gestión de Medicamentos Esenciales',
+                    feature_4_text: 'Conoce qué medicamentos son cruciales para el campo, sus indicaciones, dosis y alertas de seguridad. Una farmacia de bolsillo para que nunca te tome por sorpresa, a miles de kilómetros de un profesional.',
+                    feature_5_title: 'Renovación Espiritual Diaria',
+                    feature_5_text: 'La salud del alma sostiene el cuerpo. La app ofrece devocionales y versículos bíblicos contextualizados a la realidad misionera, fortaleciendo tu espíritu y recordándote que no estás solo.',
+                    feature_6_title: 'Conexión Directa y Segura',
+                    feature_6_text: 'Con un solo toque, comparte tu informe de salud de forma segura y confidencial con el equipo de enfermería de Telesalud Misionera o con tu liderazgo, agilizando el soporte cuando más lo necesitas.',
+                    chart_title: 'Los Pilares del Cuidado Integral',
+                    chart_label_1: 'Cuidado Físico',
+                    chart_label_2: 'Cuidado Emocional',
+                    chart_label_3: 'Cuidado Espiritual',
+                    involve_title: 'Un Llamado a Todos: Sé Parte de Esta Misión',
+                    involve_subtitle: 'MissionCare Plus es un cuerpo, y cada miembro es esencial. Descubre cómo puedes unirte a este movimiento de cuidado y marcar la diferencia.',
+                    tab_missionary: 'Soy Misionero',
+                    tab_agency: 'Soy Líder/Agencia',
+                    tab_health_pro: 'Soy de Salud',
+                    tab_supporter: 'Soy Partidario',
+                    pane_missionary_title: 'Un Regalo Para Ti',
+                    pane_missionary_text: '¡Descarga la aplicación! Siente la paz de tener un apoyo fiable en la palma de tu mano. Cuidarse no es egoísmo, sino una estrategia espiritual para la longevidad de tu ministerio. Tu salud es un bien precioso para el Reino de Dios. Úsala, explora y fortalécete para seguir cuidando de los demás.',
+                    pane_agency_title: 'Protege a Tus Obreros',
+                    pane_agency_text: 'Adopten MissionCare Plus como su herramienta oficial de cuidado. Integren la app en sus capacitaciones y manuales. Al hacerlo, ofrecen una capa extra de protección, un ángel guardián digital que reduce el riesgo de retornos prematuros y fortalece el trabajo en el campo.',
+                    pane_health_pro_title: 'Usa Tu Don Para Sanar',
+                    pane_health_pro_text: 'Tu talento es una vocación. Únete a nuestra red de voluntarios. Como médico, enfermero o psicólogo, puedes ser la respuesta a la oración de un misionero en apuros. Con pocas horas de tu tiempo, tu experiencia puede traer alivio y esperanza a quienes están en la vanguardia del Reino.',
+                    pane_supporter_title: 'Sé la Mano que Sostiene',
+                    pane_supporter_text: 'Sé un intercesor o un donante. Tu oración es nuestro combustible espiritual. Tu generosidad construye este puente de esperanza, manteniendo la plataforma gratuita y asegurando que ningún misionero quede desamparado. Invertir en MissionCare Plus es invertir en la primera línea de la misión.',
+                    footer_title: '¡El Futuro es Cuidado y Esperanza!',
+                    footer_subtitle: 'Únete a nosotros en este viaje emocionante y transformador. Juntos, llevemos salud, esperanza y el amor tangible de Jesús a cada misionero, en cada rincón del planeta.',
+                    footer_tagline: 'Medicina en Nombre de Jesús',
+                    footer_contact: 'Contacto: missionarymedicalcare@gmail.com',
+                },
+                fr: {
+                    nav_challenge: 'Le Défi',
+                    nav_solution: 'La Solution',
+                    nav_get_involved: 'S\'impliquer',
+                    nav_cta: 'Rejoignez-nous',
+                    nav_challenge_mobile: 'Le Défi',
+                    nav_solution_mobile: 'La Solution',
+                    nav_get_involved_mobile: 'S\'impliquer',
+                    nav_cta_mobile: 'Rejoignez-nous',
+                    hero_title: 'Une révolution de <span class="text-[#81B29A]">soins</span> pour ceux qui <span class="text-[#E07A5F]">servent</span>.',
+                    hero_subtitle: 'Découvrez MissionCare Plus : l\'outil de santé complet, hors ligne et au cœur chrétien, qui protège et soutient nos héros de la foi dans les coins les plus reculés de la Terre.',
+                    hero_cta_app: 'Accéder à l\'App',
+                    hero_cta_youtube: 'Voir la Playlist sur YouTube',
+                    lang_select_label: 'Sélectionner la Langue :',
+                    challenge_title: 'La Bataille Silencieuse pour la Santé sur le Terrain',
+                    challenge_subtitle: 'Les missionnaires font face à des défis uniques qui vont au-delà du spirituel. L\'accès aux soins de santé est un parcours semé d\'embûches qui peut compromettre leur mission et leur bien-être.',
+                    challenge_1_title: 'Isolement et Incertitude',
+                    challenge_1_text: 'Loin des hôpitaux, une simple fièvre ou un accident engendre anxiété et impuissance. Une mauvaise décision peut avoir de graves conséquences, et l\'aide professionnelle est à des jours de distance.',
+                    challenge_2_title: 'Maladies et Risques',
+                    challenge_2_text: 'Le paludisme, la dengue, la fièvre typhoïde et les infections sont des menaces constantes. La gestion des maladies chroniques, comme le diabète, devient un défi complexe sans soutien spécialisé.',
+                    challenge_3_title: 'Santé Mentale et Émotionnelle',
+                    challenge_3_text: 'Le stress, la solitude et la pression du ministère peuvent mener à l\'anxiété et à la dépression, souvent négligées par manque d\'un environnement sûr pour le traitement.',
+                    solution_title: 'La Réponse de Dieu : MissionCare Plus',
+                    solution_subtitle: 'Un "secouriste numérique" dans votre poche, qui fonctionne même sans internet. C\'est la technologie au service de la Grande Commission, brisant les barrières de l\'isolement avec soin et espoir.',
+                    feature_1_button: '🩺 Triage Intelligent des Symptômes',
+                    feature_2_button: '🩹 Guide de Premiers Secours',
+                    feature_3_button: '🤖 Assistant IA avec Foi',
+                    feature_4_button: '💊 Gestion des Médicaments',
+                    feature_5_button: '📖 Renouveau Spirituel',
+                    feature_6_button: '🔗 Connexion Sécurisée',
+                    feature_1_title: 'Triage Intelligent des Symptômes',
+                    feature_1_text: 'Au lieu de vous perdre sur "Dr. Google", notre système guidé pose les bonnes questions. En quelques minutes, évaluez vos symptômes ou ceux de vos enfants et recevez des conseils clairs et objectifs sur la gravité et les prochaines étapes, réduisant la panique et permettant une action correcte.',
+                    feature_2_title: 'Guide de Premiers Secours Hors Ligne',
+                    feature_2_text: 'Accidents, piqûres, brûlures ? Accédez instantanément à des protocoles d\'urgence clairs et visuels, qui enseignent comment immobiliser une fracture ou les gestes vitaux de réanimation, transformant votre téléphone en manuel de survie.',
+                    feature_3_title: 'Assistant IA au Cœur Chrétien',
+                    feature_3_text: 'Posez des questions de santé rapides et recevez des conseils qui allient la sagesse médicale à l\'empathie et à la foi. Notre assistant est formé pour être un conseiller qui comprend votre parcours, offrant un réconfort biblique avec ses orientations.',
+                    feature_4_title: 'Gestion des Médicaments Essentiels',
+                    feature_4_text: 'Sachez quels médicaments sont cruciaux sur le terrain, leurs indications, dosages et alertes de sécurité. Une pharmacie de poche pour ne jamais être pris au dépourvu, à des milliers de kilomètres d\'un professionnel.',
+                    feature_5_title: 'Renouveau Spirituel Quotidien',
+                    feature_5_text: 'La santé de l\'âme soutient le corps. L\'application propose des dévotions et des versets bibliques contextualisés à la réalité missionnaire, renforçant votre esprit et vous rappelant que vous n\'êtes pas seul.',
+                    feature_6_title: 'Connexion Directe et Sécurisée',
+                    feature_6_text: 'D\'un simple clic, partagez votre rapport de santé de manière sécurisée et confidentielle avec l\'équipe infirmière de Télésanté Missionnaire ou votre direction, accélérant le soutien quand vous en avez le plus besoin.',
+                    chart_title: 'Les Piliers du Soin Intégral',
+                    chart_label_1: 'Soin Physique',
+                    chart_label_2: 'Soin Émotionnel',
+                    chart_label_3: 'Soin Spirituel',
+                    involve_title: 'Un Appel à Tous : Participez à Cette Mission',
+                    involve_subtitle: 'MissionCare Plus est un corps, et chaque membre est essentiel. Découvrez comment vous pouvez rejoindre ce mouvement de soins et faire la différence.',
+                    tab_missionary: 'Je suis Missionnaire',
+                    tab_agency: 'Je suis Leader/Agence',
+                    tab_health_pro: 'Je suis de la Santé',
+                    tab_supporter: 'Je suis sympathisant',
+                    pane_missionary_title: 'Un Cadeau Pour Vous',
+                    pane_missionary_text: 'Téléchargez l\'application ! Ressentez la paix d\'avoir un soutien fiable dans la paume de votre main. Prendre soin de soi n\'est pas de l\'égoïsme, mais une stratégie spirituelle pour la longévité de votre ministère. Votre santé est un atout précieux pour le Royaume de Dieu. Utilisez-la, explorez et renforcez-vous pour continuer à prendre soin des autres.',
+                    pane_agency_title: 'Protégez Vos Ouvriers',
+                    pane_agency_text: 'Adoptez MissionCare Plus comme votre outil de soins officiel. Intégrez l\'application dans vos formations et manuels. Ce faisant, vous offrez une couche de protection supplémentaire, un ange gardien numérique qui réduit le risque de retours prématurés et renforce le travail sur le terrain.',
+                    pane_health_pro_title: 'Utilisez Votre Don pour Guérir',
+                    pane_health_pro_text: 'Votre talent est une vocation. Rejoignez notre réseau de bénévoles. En tant que médecin, infirmier ou psychologue, vous pouvez être la réponse à la prière d\'un missionnaire en détresse. Avec quelques heures de votre temps, votre expertise peut apporter soulagement et espoir à ceux qui sont en première ligne du Royaume.',
+                    pane_supporter_title: 'Soyez la Main qui Soutient',
+                    pane_supporter_text: 'Soyez un intercesseur ou un donateur. Votre prière est notre carburant spirituel. Votre générosité construit ce pont d\'espoir, en maintenant la plateforme gratuite et en veillant à ce qu\'aucun missionnaire ne soit laissé pour compte. Investir dans MissionCare Plus, c\'est investir en première ligne de la mission.',
+                    footer_title: 'L\'Avenir est Soin et Espoir !',
+                    footer_subtitle: 'Rejoignez-nous dans ce voyage passionnant et transformateur. Ensemble, apportons la santé, l\'espoir et l\'amour tangible de Jésus à chaque missionnaire, dans chaque coin de la planète.',
+                    footer_tagline: 'Médecine au Nom de Jésus',
+                    footer_contact: 'Contact : missionarymedicalcare@gmail.com',
+                }
+            };
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const featureButtons = document.querySelectorAll('.feature-button');
+            const featurePanes = document.querySelectorAll('.feature-pane');
+
+            featureButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const feature = button.dataset.feature;
+                    featureButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    featurePanes.forEach(pane => {
+                        pane.style.display = pane.dataset.feature === feature ? 'block' : 'none';
+                    });
+                });
+            });
+            
+            const involvementTabs = document.querySelectorAll('.involvement-tab');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            involvementTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.dataset.tab;
+                    involvementTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    tabPanes.forEach(pane => {
+                        pane.style.display = pane.dataset.tab === tabName ? 'block' : 'none';
+                    });
+                });
+            });
+            
+            let carePillarsChart;
+            const chartCanvas = document.getElementById('carePillarsChart');
+
+            function createChart(lang) {
+                if (carePillarsChart) {
+                    carePillarsChart.destroy();
+                }
+                const chartLabels = [
+                    translations[lang].chart_label_1,
+                    translations[lang].chart_label_2,
+                    translations[lang].chart_label_3
+                ];
+                carePillarsChart = new Chart(chartCanvas.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: chartLabels,
+                        datasets: [{
+                            label: 'Pilares do Cuidado',
+                            data: [33.3, 33.3, 33.3],
+                            backgroundColor: ['#81B29A', '#E07A5F', '#F2CC8F'],
+                            borderColor: '#F8F7F4',
+                            borderWidth: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    font: { size: 14, family: 'Inter' },
+                                    color: '#3D405B'
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return ` ${context.label}`;
+                                    }
+                                }
+                            }
+                        },
+                        cutout: '60%'
+                    }
+                });
+            }
+
+            const langSelectors = document.querySelectorAll('.lang-selector');
+            const elementsToTranslate = document.querySelectorAll('[data-key]');
+
+            function setLanguage(lang) {
+                elementsToTranslate.forEach(elem => {
+                    const key = elem.dataset.key;
+                    if (translations[lang] && translations[lang][key]) {
+                        elem.innerHTML = translations[lang][key];
+                    }
+                });
+
+                langSelectors.forEach(sel => {
+                    if (sel.dataset.lang === lang) {
+                        sel.classList.add('active');
+                    } else {
+                        sel.classList.remove('active');
+                    }
+                });
+                
+                document.documentElement.lang = lang.startsWith('en') ? 'en' : (lang.startsWith('es') ? 'es' : (lang.startsWith('fr') ? 'fr' : 'pt-BR'));
+                createChart(lang);
+            }
+
+            langSelectors.forEach(selector => {
+                selector.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const lang = selector.dataset.lang;
+                    setLanguage(lang);
+                });
+            });
+
+            setLanguage('pt');
+        });
+    </script>
+</body>
+</html>
