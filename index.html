@@ -11,7 +11,7 @@
     <!-- Google Fonts for typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- 
       APPLICATION STRUCTURE & DESIGN NOTES:
@@ -19,13 +19,46 @@
       - Structure: A single-page narrative journey: Hero -> The Challenge -> The Solution -> Get Involved -> Footer.
       - Interactivity: Interactive cards, a dynamic feature explorer, and a Chart.js doughnut chart are used to engage the user and present information clearly.
       - Optimization: Images are lazy-loaded and should be converted to WebP format for optimal performance on slow networks.
-    -->
+     -->
     <style>
+        :root {
+            /* Color System */
+            --primary-dark: #2C3142;
+            --primary: #3D405B;
+            --primary-light: #5D617B;
+            --accent-dark: #6A9B84;
+            --accent: #81B29A;
+            --accent-light: #A0C8B5;
+            --highlight-dark: #C55A3F;
+            --highlight: #E07A5F;
+            --highlight-light: #F0A595;
+            --neutral-light: #F8F7F4;
+            --neutral: #EAE7E0;
+            --neutral-dark: #D8D4CC;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F8F7F4; /* Light beige background */
-            color: #3D405B; /* Dark blue-gray text */
+            background-color: var(--neutral-light);
+            color: var(--primary);
         }
+        
+        /* Typography System */
+        h1 { font-size: 3rem; font-weight: 800; line-height: 1.1; }
+        h2 { font-size: 2.25rem; font-weight: 700; line-height: 1.2; }
+        h3 { font-size: 1.75rem; font-weight: 700; line-height: 1.3; }
+        .lead { font-size: 1.25rem; font-weight: 500; line-height: 1.5; }
+        .body-text { font-size: 1rem; font-weight: 400; line-height: 1.6; }
+        .small-text { font-size: 0.875rem; font-weight: 400; }
+        
+        /* Responsive Typography */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.75rem; }
+            h3 { font-size: 1.5rem; }
+            .lead { font-size: 1.125rem; }
+        }
+        
         .chart-container {
             position: relative;
             width: 100%;
@@ -35,40 +68,175 @@
             height: 300px;
             max-height: 400px;
         }
+        
         @media (min-width: 768px) {
             .chart-container {
                 height: 350px;
             }
         }
+        
+        /* Navigation */
         .nav-link {
             transition: color 0.3s;
+            position: relative;
         }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            background-color: var(--highlight);
+            transition: all 0.3s ease;
+        }
+        
         .nav-link:hover {
-            color: #E07A5F; /* Coral accent on hover */
+            color: var(--highlight);
         }
+        
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        
+        /* Feature Buttons */
+        .feature-button {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
         .feature-button.active {
-            background-color: #81B29A; /* Muted green for active state */
+            background-color: var(--accent);
             color: #FFFFFF;
             font-weight: 700;
+            border-left-color: var(--highlight);
         }
+        
+        /* Involvement Tabs */
+        .involvement-tab {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
         .involvement-tab.active {
-            border-bottom: 2px solid #E07A5F; /* Coral accent for active tab */
-            color: #E07A5F;
+            color: var(--highlight);
             font-weight: 700;
         }
+        
+        .involvement-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--highlight);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        /* Language Selector */
+        .lang-selector {
+            transition: all 0.3s ease;
+        }
+        
         .lang-selector.active {
             transform: scale(1.1);
             box-shadow: 0 0 0 3px rgba(224, 122, 95, 0.5);
         }
+        
+        /* Challenge Cards */
+        .challenge-card {
+            transition: all 0.3s ease;
+            border-top: 4px solid transparent;
+        }
+        
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            border-top-color: var(--highlight);
+            box-shadow: 0 10px 25px rgba(61, 64, 91, 0.1);
+        }
+        
+        .challenge-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .challenge-card:hover .challenge-icon {
+            transform: scale(1.1);
+            color: var(--highlight);
+        }
+        
+        /* Buttons */
+        .btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+        
+        /* Custom Icons */
+        .custom-icon {
+            width: 64px;
+            height: 64px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        /* Footer */
+        .footer-link {
+            transition: color 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: var(--highlight);
+        }
     </style>
 </head>
 <body class="antialiased">
-
     <!-- Header Section -->
-    <header class="bg-white/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-sm">
+    <header class="bg-white/90 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-sm">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-[#3D405B]">
-                MissionCare<span class="text-[#81B29A]">+</span>
+            <a href="#" class="flex items-center space-x-2">
+                <!-- Logo SVG -->
+                <svg class="w-10 h-10" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" fill="#3D405B"/>
+                    <path d="M50 20 C35 20, 20 35, 20 50 C20 65, 35 80, 50 80 C65 80, 80 65, 80 50 C80 35, 65 20, 50 20 Z" fill="#81B29A"/>
+                    <path d="M50 30 C40 30, 30 40, 30 50 C30 60, 40 70, 50 70 C60 70, 70 60, 70 50 C70 40, 60 30, 50 30 Z" fill="#F8F7F4"/>
+                    <path d="M50 40 C45 40, 40 45, 40 50 C40 55, 45 60, 50 60 C55 60, 60 55, 60 50 C60 45, 55 40, 50 40 Z" fill="#E07A5F"/>
+                    <path d="M45 50 L55 50 M50 45 L50 55" stroke="#3D405B" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+                <span class="text-2xl font-bold text-[#3D405B]">
+                    MissionCare<span class="text-[#81B29A]">+</span>
+                </span>
             </a>
             <nav class="hidden md:flex space-x-8">
                 <a href="#desafio" class="nav-link text-gray-600 font-medium" data-key="nav_challenge">O Desafio</a>
@@ -76,7 +244,7 @@
                 <a href="#envolva-se" class="nav-link text-gray-600 font-medium" data-key="nav_get_involved">Envolva-se</a>
             </nav>
             <div class="hidden md:flex items-center space-x-4">
-                <a href="#envolva-se" class="bg-[#E07A5F] text-white font-bold py-2 px-5 rounded-full hover:bg-opacity-90 transition-transform transform hover:scale-105" data-key="nav_cta">
+                <a href="#envolva-se" class="btn bg-[#E07A5F] text-white font-bold py-2 px-5 rounded-full hover:bg-opacity-90 transition-transform transform hover:scale-105" data-key="nav_cta">
                     Faça Parte
                 </a>
             </div>
@@ -90,23 +258,26 @@
             <a href="#envolva-se" class="block mt-4 text-center bg-[#E07A5F] text-white font-bold py-2 px-5 rounded-full" data-key="nav_cta_mobile">Faça Parte</a>
         </div>
     </header>
-
     <main class="pb-24 md:pb-0"> <!-- Added padding-bottom for mobile to avoid overlap with sticky CTA -->
         <!-- Hero Section -->
-        <section id="hero" class="pt-32 pb-20 bg-white">
-            <div class="container mx-auto px-6 text-center">
+        <section id="hero" class="pt-32 pb-20 bg-white relative overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Missionários ajudando comunidade" class="w-full h-full object-cover opacity-20">
+                <div class="absolute inset-0 bg-gradient-to-r from-[#F8F7F4] to-transparent"></div>
+            </div>
+            <div class="container mx-auto px-6 text-center relative z-10">
                 <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4" data-key="hero_title">
                     Uma revolução de <span class="text-[#81B29A]">cuidado</span> para quem <span class="text-[#E07A5F]">serve</span>.
                 </h1>
-                <p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-600 mb-8" data-key="hero_subtitle">
+                <p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-600 mb-8 lead" data-key="hero_subtitle">
                     Apresentando o MissionCare Plus: a ferramenta de saúde integral, offline e com coração cristão, que protege e sustenta nossos heróis da fé nos lugares mais remotos da Terra.
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                     <a href="https://telesaudemissionaria.github.io/missioncare-plus/index.html" target="_blank" rel="noopener noreferrer" class="bg-[#81B29A] text-white font-bold py-3 px-6 rounded-full hover:bg-opacity-90 transition-transform transform hover:scale-105 w-full sm:w-auto text-lg" data-key="hero_cta_app">
-                         Acessar o App
+                     <a href="https://telesaudemissionaria.github.io/missioncare-plus/index.html" target="_blank" rel="noopener noreferrer" class="btn bg-[#81B29A] text-white font-bold py-3 px-6 rounded-full hover:bg-opacity-90 transition-transform transform hover:scale-105 w-full sm:w-auto text-lg" data-key="hero_cta_app">
+                          Acessar o App
                      </a>
-                     <a href="https://youtube.com/playlist?list=PL6JIF2YBc-Bwo865kfBzRLCjd9lqhmOI1&si=HvYXdOM0L7tFgYe1" target="_blank" rel="noopener noreferrer" class="border-2 border-[#3D405B] text-[#3D405B] font-bold py-3 px-6 rounded-full hover:bg-[#3D405B] hover:text-white transition w-full sm:w-auto text-lg" data-key="hero_cta_youtube">
-                         Ver Playlist no YouTube
+                     <a href="https://youtube.com/playlist?list=PL6JIF2YBc-Bwo865kfBzRLCjd9lqhmOI1&si=HvYXdOM0L7tFgYe1" target="_blank" rel="noopener noreferrer" class="btn border-2 border-[#3D405B] text-[#3D405B] font-bold py-3 px-6 rounded-full hover:bg-[#3D405B] hover:text-white transition w-full sm:w-auto text-lg" data-key="hero_cta_youtube">
+                          Ver Playlist no YouTube
                      </a>
                 </div>
                 <div class="mt-12">
@@ -120,42 +291,55 @@
                 </div>
             </div>
         </section>
-
         <!-- The Challenge Section -->
         <section id="desafio" class="py-20">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold mb-3" data-key="challenge_title">A Batalha Silenciosa pela Saúde no Campo</h2>
-                    <p class="max-w-3xl mx-auto text-gray-600 text-lg" data-key="challenge_subtitle">
+                    <p class="max-w-3xl mx-auto text-gray-600 text-lg lead" data-key="challenge_subtitle">
                         Missionários enfrentam desafios únicos que vão além do espiritual. O acesso à saúde é uma jornada repleta de obstáculos que podem comprometer a missão e o bem-estar.
                     </p>
                 </div>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                        <div class="text-4xl mb-4 text-[#E07A5F]">🌍</div>
+                    <div class="challenge-card bg-white p-8 rounded-xl shadow-lg">
+                        <div class="challenge-icon text-4xl mb-4 text-[#E07A5F]">
+                            <!-- Custom Icon for Isolation -->
+                            <svg class="custom-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                            </svg>
+                        </div>
                         <h3 class="text-2xl font-bold mb-2" data-key="challenge_1_title">Isolamento e Incerteza</h3>
-                        <p class="text-gray-600" data-key="challenge_1_text">Longe de hospitais, uma simples febre ou acidente gera ansiedade e impotência. A decisão errada pode ter consequências graves, e a ajuda profissional está a dias de distância.</p>
+                        <p class="text-gray-600 body-text" data-key="challenge_1_text">Longe de hospitais, uma simples febre ou acidente gera ansiedade e impotência. A decisão errada pode ter consequências graves, e a ajuda profissional está a dias de distância.</p>
                     </div>
-                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                        <div class="text-4xl mb-4 text-[#E07A5F]">🦟</div>
+                    <div class="challenge-card bg-white p-8 rounded-xl shadow-lg">
+                        <div class="challenge-icon text-4xl mb-4 text-[#E07A5F]">
+                            <!-- Custom Icon for Diseases -->
+                            <svg class="custom-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2l-5.5 9h11z M12 5.84L13.93 9h-3.87z M17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zM6.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5z"/>
+                            </svg>
+                        </div>
                         <h3 class="text-2xl font-bold mb-2" data-key="challenge_2_title">Doenças e Riscos</h3>
-                        <p class="text-gray-600" data-key="challenge_2_text">Malária, dengue, febre tifoide e infecções são ameaças constantes. O manejo de doenças crônicas, como diabetes, torna-se um desafio complexo sem suporte especializado.</p>
+                        <p class="text-gray-600 body-text" data-key="challenge_2_text">Malária, dengue, febre tifoide e infecções são ameaças constantes. O manejo de doenças crônicas, como diabetes, torna-se um desafio complexo sem suporte especializado.</p>
                     </div>
-                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                        <div class="text-4xl mb-4 text-[#E07A5F]">❤️‍🩹</div>
+                    <div class="challenge-card bg-white p-8 rounded-xl shadow-lg">
+                        <div class="challenge-icon text-4xl mb-4 text-[#E07A5F]">
+                            <!-- Custom Icon for Mental Health -->
+                            <svg class="custom-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                        </div>
                         <h3 class="text-2xl font-bold mb-2" data-key="challenge_3_title">Saúde Mental e Emocional</h3>
-                        <p class="text-gray-600" data-key="challenge_3_text">O estresse, a solidão e a pressão do ministério podem levar a quadros de ansiedade e depressão, muitas vezes negligenciados por falta de um ambiente seguro para tratamento.</p>
+                        <p class="text-gray-600 body-text" data-key="challenge_3_text">O estresse, a solidão e a pressão do ministério podem levar a quadros de ansiedade e depressão, muitas vezes negligenciados por falta de um ambiente seguro para tratamento.</p>
                     </div>
                 </div>
             </div>
         </section>
-
         <!-- The Solution Section -->
         <section id="solucao" class="py-20 bg-white">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold mb-3" data-key="solution_title">A Resposta de Deus: MissionCare Plus</h2>
-                    <p class="max-w-3xl mx-auto text-gray-600 text-lg" data-key="solution_subtitle">
+                    <p class="max-w-3xl mx-auto text-gray-600 text-lg lead" data-key="solution_subtitle">
                         Um "socorrista digital" no seu bolso, que funciona mesmo sem internet. É a tecnologia a serviço da Grande Comissão, rompendo barreiras de isolamento com cuidado e esperança.
                     </p>
                 </div>
@@ -191,7 +375,7 @@
                                 <div class="md:flex md:items-center md:gap-8">
                                     <div class="md:flex-1">
                                         <h3 class="text-2xl font-bold mb-3" data-key="feature_1_title">Triagem de Sintomas Inteligente</h3>
-                                        <p class="text-gray-600" data-key="feature_1_text">Em vez de se perder no "Dr. Google", nosso sistema guiado faz as perguntas certas. Em minutos, avalie seus sintomas ou os de seus filhos e receba uma orientação clara e objetiva sobre a gravidade e os próximos passos, reduzindo o pânico e capacitando para a ação correta.</p>
+                                        <p class="text-gray-600 body-text" data-key="feature_1_text">Em vez de se perder no "Dr. Google", nosso sistema guiado faz as perguntas certas. Em minutos, avalie seus sintomas ou os de seus filhos e receba uma orientação clara e objetiva sobre a gravidade e os próximos passos, reduzindo o pânico e capacitando para a ação correta.</p>
                                     </div>
                                     <div class="mt-6 md:mt-0 md:w-1/3 flex-shrink-0">
                                         <img src="https://storage.googleapis.com/gemini-prod/images/5718a245-0d4d-451e-923f-e14b1c70e70a" alt="Tela de Triagem do App" class="rounded-lg shadow-md mx-auto" loading="lazy">
@@ -203,7 +387,7 @@
                                <div class="md:flex md:items-center md:gap-8">
                                     <div class="md:flex-1">
                                         <h3 class="text-2xl font-bold mb-3" data-key="feature_2_title">Guia de Primeiros Socorros Offline</h3>
-                                        <p class="text-gray-600" data-key="feature_2_text">Acidentes, picadas, queimaduras? Tenha acesso instantâneo a protocolos de emergência claros e visuais, que ensinam desde como imobilizar uma fratura até os passos vitais na reanimação, transformando seu celular em um manual de sobrevivência.</p>
+                                        <p class="text-gray-600 body-text" data-key="feature_2_text">Acidentes, picadas, queimaduras? Tenha acesso instantâneo a protocolos de emergência claros e visuais, que ensinam desde como imobilizar uma fratura até os passos vitais na reanimação, transformando seu celular em um manual de sobrevivência.</p>
                                     </div>
                                     <div class="mt-6 md:mt-0 md:w-1/3 flex-shrink-0">
                                         <img src="https://storage.googleapis.com/gemini-prod/images/3074526d-4767-42b7-8821-4f1146609919" alt="Tela de Primeiros Socorros do App" class="rounded-lg shadow-md mx-auto" loading="lazy">
@@ -215,7 +399,7 @@
                                 <div class="md:flex md:items-center md:gap-8">
                                     <div class="md:flex-1">
                                         <h3 class="text-2xl font-bold mb-3" data-key="feature_3_title">Assistente de IA com Coração Cristão</h3>
-                                        <p class="text-gray-600" data-key="feature_3_text">Tire dúvidas rápidas de saúde e receba conselhos que unem a sabedoria médica à empatia e à fé. Nosso assistente foi treinado para ser um conselheiro que entende sua jornada, oferecendo conforto bíblico junto com a orientação.</p>
+                                        <p class="text-gray-600 body-text" data-key="feature_3_text">Tire dúvidas rápidas de saúde e receba conselhos que unem a sabedoria médica à empatia e à fé. Nosso assistente foi treinado para ser um conselheiro que entende sua jornada, oferecendo conforto bíblico junto com a orientação.</p>
                                     </div>
                                     <div class="mt-6 md:mt-0 md:w-1/3 flex-shrink-0">
                                         <img src="https://placehold.co/200x400/F2CC8F/3D405B?text=Tela+IA" alt="Tela do Assistente IA" class="rounded-lg shadow-md mx-auto" loading="lazy">
@@ -226,7 +410,7 @@
                                 <div class="md:flex md:items-center md:gap-8">
                                     <div class="md:flex-1">
                                         <h3 class="text-2xl font-bold mb-3" data-key="feature_4_title">Gestão de Medicamentos Essenciais</h3>
-                                        <p class="text-gray-600" data-key="feature_4_text">Saiba quais medicamentos são cruciais para levar ao campo, suas indicações, dosagens e alertas de segurança. Uma farmácia de bolso para que você nunca seja pego de surpresa, a milhares de quilômetros de um profissional.</p>
+                                        <p class="text-gray-600 body-text" data-key="feature_4_text">Saiba quais medicamentos são cruciais para levar ao campo, suas indicações, dosagens e alertas de segurança. Uma farmácia de bolso para que você nunca seja pego de surpresa, a milhares de quilômetros de um profissional.</p>
                                     </div>
                                     <div class="mt-6 md:mt-0 md:w-1/3 flex-shrink-0">
                                         <img src="https://placehold.co/200x400/81B29A/FFFFFF?text=Tela+Meds" alt="Tela de Medicamentos" class="rounded-lg shadow-md mx-auto" loading="lazy">
@@ -237,7 +421,7 @@
                                 <div class="md:flex md:items-center md:gap-8">
                                     <div class="md:flex-1">
                                         <h3 class="text-2xl font-bold mb-3" data-key="feature_5_title">Renovação Espiritual Diária</h3>
-                                        <p class="text-gray-600" data-key="feature_5_text">A saúde da alma sustenta o corpo. O app oferece devocionais e versículos bíblicos contextualizados para a realidade missionária, fortalecendo seu espírito e lembrando que você não está sozinho.</p>
+                                        <p class="text-gray-600 body-text" data-key="feature_5_text">A saúde da alma sustenta o corpo. O app oferece devocionais e versículos bíblicos contextualizados para a realidade missionária, fortalecendo seu espírito e lembrando que você não está sozinho.</p>
                                     </div>
                                     <div class="mt-6 md:mt-0 md:w-1/3 flex-shrink-0">
                                         <img src="https://placehold.co/200x400/E07A5F/FFFFFF?text=Tela+Fé" alt="Tela de Devocional" class="rounded-lg shadow-md mx-auto" loading="lazy">
@@ -248,7 +432,7 @@
                                 <div class="md:flex md:items-center md:gap-8">
                                     <div class="md:flex-1">
                                         <h3 class="text-2xl font-bold mb-3" data-key="feature_6_title">Conexão Direta e Segura</h3>
-                                        <p class="text-gray-600" data-key="feature_6_text">Com apenas um toque, compartilhe seu relatório de saúde de forma segura e confidencial com a equipe de enfermagem da Telessaúde Missionária ou com sua liderança, agilizando o suporte quando você mais precisa.</p>
+                                        <p class="text-gray-600 body-text" data-key="feature_6_text">Com apenas um toque, compartilhe seu relatório de saúde de forma segura e confidencial com a equipe de enfermagem da Telessaúde Missionária ou com sua liderança, agilizando o suporte quando você mais precisa.</p>
                                     </div>
                                     <div class="mt-6 md:mt-0 md:w-1/3 flex-shrink-0">
                                         <img src="https://placehold.co/200x400/3D405B/FFFFFF?text=Tela+Zap" alt="Tela de Conexão" class="rounded-lg shadow-md mx-auto" loading="lazy">
@@ -267,17 +451,15 @@
                 </div>
             </div>
         </section>
-
         <!-- Get Involved Section -->
         <section id="envolva-se" class="py-20">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold mb-3" data-key="involve_title">Um Chamado a Todos: Faça Parte Desta Missão</h2>
-                    <p class="max-w-3xl mx-auto text-gray-600 text-lg" data-key="involve_subtitle">
+                    <p class="max-w-3xl mx-auto text-gray-600 text-lg lead" data-key="involve_subtitle">
                         O MissionCare Plus é um corpo, e cada membro é essencial. Descubra como você pode se juntar a este movimento de cuidado e fazer a diferença.
                     </p>
                 </div>
-
                 <div class="max-w-4xl mx-auto">
                     <div class="border-b border-gray-300 mb-8">
                         <nav id="involvement-tabs" class="flex flex-wrap -mb-px justify-center" aria-label="Tabs">
@@ -290,48 +472,85 @@
                     <div id="involvement-content">
                         <div class="tab-pane active" data-tab="missionario">
                             <h3 class="text-2xl font-bold mb-4 text-center" data-key="pane_missionary_title">Um Presente Para Você</h3>
-                            <p class="text-lg text-gray-600 text-center" data-key="pane_missionary_text">Baixe o aplicativo! Sinta a paz de ter um apoio confiável na palma da sua mão. Cuidar de si mesmo não é egoísmo, mas uma estratégia espiritual para a longevidade do seu ministério. Sua saúde é um patrimônio precioso para o Reino de Deus. Use-o, explore e fortaleça-se para continuar cuidando dos outros.</p>
+                            <p class="text-lg text-gray-600 text-center body-text" data-key="pane_missionary_text">Baixe o aplicativo! Sinta a paz de ter um apoio confiável na palma da sua mão. Cuidar de si mesmo não é egoísmo, mas uma estratégia espiritual para a longevidade do seu ministério. Sua saúde é um patrimônio precioso para o Reino de Deus. Use-o, explore e fortaleça-se para continuar cuidando dos outros.</p>
                         </div>
                         <div class="tab-pane hidden" data-tab="agencia">
                             <h3 class="text-2xl font-bold mb-4 text-center" data-key="pane_agency_title">Proteja Seus Obreiros</h3>
-                            <p class="text-lg text-gray-600 text-center" data-key="pane_agency_text">Adotem o MissionCare Plus como sua ferramenta oficial de cuidado. Integrem o app em seus treinamentos e manuais. Ao fazer isso, vocês oferecem uma camada extra de proteção, um anjo da guarda digital que reduz o risco de retornos prematuros e fortalece o trabalho no campo.</p>
+                            <p class="text-lg text-gray-600 text-center body-text" data-key="pane_agency_text">Adotem o MissionCare Plus como sua ferramenta oficial de cuidado. Integrem o app em seus treinamentos e manuais. Ao fazer isso, vocês oferecem uma camada extra de proteção, um anjo da guarda digital que reduz o risco de retornos prematuros e fortalece o trabalho no campo.</p>
                         </div>
                         <div class="tab-pane hidden" data-tab="saude">
                             <h3 class="text-2xl font-bold mb-4 text-center" data-key="pane_health_pro_title">Use Seu Dom Para Curar</h3>
-                            <p class="text-lg text-gray-600 text-center" data-key="pane_health_pro_text">Seu talento é uma vocação. Junte-se à nossa rede de voluntários. Como médico, enfermeiro ou psicólogo, você pode ser a resposta à oração de um missionário em apuros. Com poucas horas do seu tempo, sua expertise pode trazer alívio e esperança a quem está na vanguarda do Reino.</p>
+                            <p class="text-lg text-gray-600 text-center body-text" data-key="pane_health_pro_text">Seu talento é uma vocação. Junte-se à nossa rede de voluntários. Como médico, enfermeiro ou psicólogo, você pode ser a resposta à oração de um missionário em apuros. Com poucas horas do seu tempo, sua expertise pode trazer alívio e esperança a quem está na vanguarda do Reino.</p>
                         </div>
                         <div class="tab-pane hidden" data-tab="apoiador">
                             <h3 class="text-2xl font-bold mb-4 text-center" data-key="pane_supporter_title">Seja a Mão que Sustenta</h3>
-                            <p class="text-lg text-gray-600 text-center" data-key="pane_supporter_text">Seja um intercessor ou um doador. Sua oração é nosso combustível espiritual. Sua generosidade constrói esta ponte de esperança, mantendo a plataforma gratuita e garantindo que nenhum missionário fique desamparado. Investir no MissionCare Plus é investir na linha de frente da missão.</p>
+                            <p class="text-lg text-gray-600 text-center body-text" data-key="pane_supporter_text">Seja um intercessor ou um doador. Sua oração é nosso combustível espiritual. Sua generosidade constrói esta ponte de esperança, mantendo a plataforma gratuita e garantindo que nenhum missionário fique desamparado. Investir no MissionCare Plus é investir na linha de frente da missão.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
-
     <!-- Footer Section -->
     <footer class="bg-[#3D405B] text-white py-12">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-4" data-key="footer_title">O Futuro é de Cuidado e Esperança!</h2>
-            <p class="max-w-2xl mx-auto mb-8" data-key="footer_subtitle">
-                Junte-se a nós nesta jornada emocionante e transformadora. Vamos juntos levar saúde, esperança e o amor tangível de Jesus a cada missionário, em cada canto do planeta.
-            </p>
-            <p class="font-bold">Missionary Medical Care</p>
-            <p class="text-sm text-gray-400" data-key="footer_tagline">Medicina em Nome de Jesus</p>
-             <div class="mt-6">
-                 <p class="text-gray-300" data-key="footer_contact">Contato: missionarymedicalcare@gmail.com</p>
-             </div>
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start space-x-2 mb-4">
+                        <!-- Logo SVG -->
+                        <svg class="w-10 h-10" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="45" fill="#3D405B"/>
+                            <path d="M50 20 C35 20, 20 35, 20 50 C20 65, 35 80, 50 80 C65 80, 80 65, 80 50 C80 35, 65 20, 50 20 Z" fill="#81B29A"/>
+                            <path d="M50 30 C40 30, 30 40, 30 50 C30 60, 40 70, 50 70 C60 70, 70 60, 70 50 C70 40, 60 30, 50 30 Z" fill="#F8F7F4"/>
+                            <path d="M50 40 C45 40, 40 45, 40 50 C40 55, 45 60, 50 60 C55 60, 60 55, 60 50 C60 45, 55 40, 50 40 Z" fill="#E07A5F"/>
+                            <path d="M45 50 L55 50 M50 45 L50 55" stroke="#3D405B" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                        <span class="text-2xl font-bold">MissionCare<span class="text-[#81B29A]">+</span></span>
+                    </div>
+                    <p class="text-gray-300 body-text">Cuidado integral para missionários em todo o mundo.</p>
+                </div>
+                <div class="text-center">
+                    <h3 class="text-xl font-bold mb-4">Conecte-se</h3>
+                    <div class="flex justify-center space-x-4">
+                        <a href="https://www.facebook.com/MissionaryMedicalCare/" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/missionarymedicalcare/" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">
+                            <span class="sr-only">Instagram</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                            </svg>
+                        </a>
+                        <a href="https://youtube.com/playlist?list=PL6JIF2YBc-Bwo865kfBzRLCjd9lqhmOI1&si=b7cQaxdMe7RuO3vl" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">
+                            <span class="sr-only">YouTube</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center md:text-right">
+                    <h3 class="text-xl font-bold mb-4">Contato</h3>
+                    <p class="text-gray-300 body-text">missionarymedicalcare@gmail.com</p>
+                    <p class="text-gray-300 mt-2 body-text">Medicina em Nome de Jesus</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-300 uppercase tracking-wider mb-6 body-text">Se Deus nos chamou para servir aos confins da terra, Ele também proverá os meios para cuidar de quem serve.</p>
+                <p class="text-gray-400 small-text">&copy; 2023 Missionary Medical Care. Todos os direitos reservados.</p>
+            </div>
         </div>
     </footer>
     
     <!-- NEW: Sticky CTA Button for Mobile -->
     <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm p-4 shadow-[0_-2px_5px_rgba(0,0,0,0.1)] z-40">
-        <a href="https://telesaudemissionaria.github.io/missioncare-plus/index.html" target="_blank" rel="noopener noreferrer" class="bg-[#81B29A] text-white font-bold py-3 px-6 rounded-full w-full text-center block text-lg" data-key="hero_cta_app">
+        <a href="https://telesaudemissionaria.github.io/missioncare-plus/index.html" target="_blank" rel="noopener noreferrer" class="btn bg-[#81B29A] text-white font-bold py-3 px-6 rounded-full w-full text-center block text-lg" data-key="hero_cta_app">
             Acessar o App
         </a>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const translations = {
@@ -440,16 +659,13 @@
                     footer_title: 'L\'Avenir est Soin et Espoir !', footer_subtitle: 'Rejoignez-nous dans ce voyage passionnant et transformateur. Ensemble, apportons la santé, l\'espoir et l\'amour tangible de Jésus à chaque missionnaire, dans chaque coin de la planète.', footer_tagline: 'Médecine au Nom de Jésus', footer_contact: 'Contact : missionarymedicalcare@gmail.com',
                 }
             };
-
             const langCodeMap = { '🇧🇷': 'pt-BR', '🇬🇧': 'en', '🇪🇸': 'es', '🇫🇷': 'fr' };
-
             // Mobile menu toggle
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
-
             // Feature tabs functionality
             const featureButtons = document.querySelectorAll('.feature-button');
             const featurePanes = document.querySelectorAll('.feature-pane');
@@ -468,7 +684,6 @@
                     });
                 });
             });
-
             // Involvement tabs functionality
             const involvementTabs = document.querySelectorAll('.involvement-tab');
             const tabPanes = document.querySelectorAll('.tab-pane');
@@ -513,17 +728,30 @@
                         plugins: {
                             legend: {
                                 position: 'bottom',
-                                labels: { font: { size: 14, family: 'Inter' }, color: '#3D405B' }
+                                labels: { 
+                                    font: { size: 14, family: 'Inter' }, 
+                                    color: '#3D405B',
+                                    padding: 20
+                                }
                             },
                             tooltip: {
-                                callbacks: { label: (context) => ` ${context.label}` }
+                                backgroundColor: 'rgba(61, 64, 91, 0.8)',
+                                titleFont: { size: 16 },
+                                bodyFont: { size: 14 },
+                                padding: 12,
+                                callbacks: { 
+                                    label: (context) => ` ${context.label}: ${context.parsed}%` 
+                                }
                             }
                         },
-                        cutout: '60%'
+                        cutout: '60%',
+                        animation: {
+                            animateRotate: true,
+                            animateScale: true
+                        }
                     }
                 });
             }
-
             // Language switcher functionality
             const langSelectors = document.querySelectorAll('.lang-selector');
             const elementsToTranslate = document.querySelectorAll('[data-key]');
@@ -540,7 +768,6 @@
                 document.documentElement.lang = langCodeMap[lang] || 'pt-BR';
                 createChart(lang);
             }
-
             langSelectors.forEach(selector => {
                 selector.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -548,7 +775,6 @@
                     setLanguage(lang);
                 });
             });
-
             // Set initial language
             setLanguage('🇧🇷');
         });
